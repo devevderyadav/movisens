@@ -1,0 +1,2 @@
+include ':movisenslibrary'
+project(':movisenslibrary').projectDir = new File('.', '../movisenslibrary')

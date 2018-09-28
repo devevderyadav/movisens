@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="de.kn.uni.smartact.movisensmanager">
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:name="de.kn.uni.smartact.movisenslibrary.SensorApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name="de.kn.uni.smartact.movisensmanager.Activity_permission"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="de.kn.uni.smartact.movisensmanager.Activity_main"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="de.kn.uni.smartact.movisenslibrary.screens.view.Activity_BluetoothUser"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.kn.uni.smartact.movisenslibrary.screens.view.Activity_BluetoothStart" />
+        </activity>
+
+        <activity
+            android:name="de.kn.uni.smartact.movisenslibrary.screens.view.Activity_BluetoothDeviceScan"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.kn.uni.smartact.movisenslibrary.screens.view.Activity_BluetoothStart" />
+        </activity>
+
+        <activity
+            android:name="de.kn.uni.smartact.movisenslibrary.screens.NoMeasurmentDialog"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:theme="@android:style/Theme.Dialog"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.kn.uni.smartact.movisenslibrary.screens.view.Activity_BluetoothStart" />
+        </activity>
+
+        <activity
+            android:name="de.kn.uni.smartact.movisenslibrary.screens.view.Activity_BluetoothData"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.kn.uni.smartact.movisenslibrary.screens.view.Activity_BluetoothStart" />
+        </activity>
+
+        <activity
+            android:name="de.kn.uni.smartact.movisenslibrary.screens.view.Activity_BluetoothStart"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <service android:name="de.kn.uni.smartact.movisenslibrary.bluetooth.MovisensService" />
+
+        <receiver android:name="de.kn.uni.smartact.movisenslibrary.reboot.RebootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>
