@@ -8,6 +8,7 @@ public class BluetoothData {
     public String moderate;
     public String vigorous;
     public String count;
+   // public String [] ecg; //ECG data
 
     public BluetoothData(String date, String steps, String met, String light, String moderate, String vigorous, String count){
         this.date = date;
@@ -17,5 +18,6 @@ public class BluetoothData {
         this.moderate = moderate;
         this.vigorous = vigorous;
         this.count = count;
+       // this.ecg=ecg;
     }
 }

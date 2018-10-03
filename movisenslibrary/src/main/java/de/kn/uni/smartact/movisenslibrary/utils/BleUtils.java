@@ -66,7 +66,9 @@ public class BleUtils {
 		if (gattCharacteristics != null && gattCharacteristics.size() > 0) {
 			for (BluetoothGattCharacteristic gattCharacteristic : gattCharacteristics) {
 				if (gattCharacteristic != null) {
+				    Log.d("gattCharacteristicId ",  gattCharacteristic.getUuid().toString());
 					if (gattCharacteristic.getUuid().equals(uuid)) {
+                        Log.d("gattCharacteristicName ",  gattCharacteristic.getUuid().toString());
 						return gattCharacteristic;
 					}
 				}
@@ -80,7 +82,9 @@ public class BleUtils {
 			return null;
 
 		for (BluetoothGattService gattService : gattServices) {
+
 			if (uuid.equals(gattService.getUuid())) {
+                Log.d("uuid_","UUID is "+uuid +"gattService.getUuid() is" +gattService.getUuid());
 				return gattService;
 			}
 		}

@@ -4,6 +4,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion '26.0.2'
 
+
     defaultConfig {
         applicationId "de.kn.uni.smartact.movisensmanager"
         minSdkVersion 23
