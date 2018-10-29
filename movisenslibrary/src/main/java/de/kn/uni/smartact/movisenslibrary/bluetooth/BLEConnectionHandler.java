@@ -28,8 +28,6 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.ParcelUuid;
 import android.util.Log;
 
@@ -443,7 +441,7 @@ public class BLEConnectionHandler {
 
 	/**
 	 * Enables or disables notification on a give characteristic.
-	 *
+	 * 	 * 	 *
 	 * @param characteristic
 	 *            Characteristic to act on.
 	 * @param enabled

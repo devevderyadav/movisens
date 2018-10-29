@@ -31,7 +31,6 @@ import com.movisens.movisensgattlib.attributes.MeasurementEnabled;
 import com.movisens.movisensgattlib.attributes.MetBuffered;
 import com.movisens.movisensgattlib.attributes.MetLevelBuffered;
 import com.movisens.movisensgattlib.attributes.SensorLocation;
-import com.movisens.movisensgattlib.attributes.SkinTemperature;
 import com.movisens.movisensgattlib.attributes.StepsBuffered;
 import com.movisens.movisensgattlib.attributes.TapMarker;
 import com.movisens.smartgattlib.Characteristics;
@@ -39,7 +38,6 @@ import com.movisens.smartgattlib.Services;
 import com.movisens.smartgattlib.attributes.EnumGender;
 import com.movisens.smartgattlib.attributes.FirmwareRevisionString;
 import com.movisens.smartgattlib.attributes.Gender;
-import com.movisens.smartgattlib.attributes.HeartRateMeasurement;
 import com.movisens.smartgattlib.attributes.Height;
 import com.movisens.smartgattlib.attributes.Weight;
 import com.movisens.smartgattlib.helper.GattByteBuffer;
@@ -439,93 +437,17 @@ public class MovisensService extends Service {
 
 
 
-        /*
-
-         ECG service
-
-        */
-
-        BluetoothGattService hrvService = BleUtils.findService(UUID.fromString("0bd51666-e7cb-469b-8e4d-2742f1ba77cd"), gattServices);
-
-        Log.d("hrv_uuid ",MovisensServices.HRV.getUuid().toString());
-
-       if (hrvService!=null){
-
-           Log.d("ECGservice",hrvService.getCharacteristics().toString());
+       BluetoothGattService markerService = BleUtils.findService(MovisensServices.MARKER.getUuid(), gattServices);
+        Log.d("marker_uuid ",markerService.getUuid().toString());
 
 
-           BleUtils.enableCharacteristicIndication(
-                   MovisensCharacteristics.HR_MEAN_BUFFERED.getUuid(),"HR_MEAN_BUFFERED",
-                   hrvService.getCharacteristics(), connectionHandler);
+       if(markerService!=null){
 
-       }
-
-
-
-
-               /* BleUtils.enableCharacteristicIndication(MovisensCharacteristics.ECG.getUuid(),"ECG",
-                        ecgService.getCharacteristics(), connectionHandler);
-            }*/
-
-
-
-
-  // ECG
-
-
-       /* BluetoothGattService cardioService = BleUtils.findService(UUID.fromString("7d1ad222-c7f5-4352-a3ed-783dda0a23ed"), gattServices);
-
-        if(cardioService!=null)
-            Log.d("cardio",cardioService.toString());
-
-
-        if(cardioService!=null){
-           // Log.d("cardio",""+ cardioService.getCharacteristics());
-
-            BleUtils.enableCharacteristicIndication(
-                    MovisensCharacteristics.ECG.getUuid(),"ECG",
-                    cardioService.getCharacteristics(), connectionHandler);
-
-
-        }*/
-
-
-  // BODY TEMP
-
-
-             BluetoothGattService skintempService = BleUtils.findService(UUID.fromString("247af432-444c-4211-8b9d-2c8512cfdf4a"), gattServices);
-
-
-
-             if(skintempService!=null){
-                 Log.d("skinTemp",""+ skintempService.getCharacteristics());
-
-                 BleUtils.enableCharacteristicIndication(
-                         MovisensCharacteristics.SKIN_TEMPERATURE.getUuid(),"SKIN_TEMPERATURE",
-                         skintempService.getCharacteristics(), connectionHandler);
-
-
-             }
-
-
-
-       //
-        BluetoothGattService markerService = BleUtils.findService(MovisensServices.MARKER.getUuid(), gattServices);
-
-
-
-             Log.d("marker_uuid ",markerService.getUuid().toString());
-
-
-        if(markerService!=null){
-
-            Log.d("marker",markerService.getCharacteristics().toString());
-            BleUtils.enableCharacteristicIndication(
-                    UUID.fromString("32062bba-7843-4ad6-94ea-95c66909edcf"),"TAP_MARKER_BUFFERED",
+            Log.d("marker",markerService.getCharacteristics().get(0).getUuid().toString());
+            BleUtils.enableCharacteristicNotification(
+                    MovisensCharacteristics.TAP_MARKER.getUuid(),"TAP_MARKER",
                     markerService.getCharacteristics(), connectionHandler);
-
-
-        }
+            }
 
 
 
@@ -533,14 +455,6 @@ public class MovisensService extends Service {
         BluetoothGattService movisensService = BleUtils.findService(MovisensServices.MOVISENS_USER_DATA.getUuid(), gattServices);
         if (movisensService != null) {
 
-
-          /*  Log.d("ECG",MovisensCharacteristics.ECG.getAttributeClass().toString());
-            Log.d("ECG-Uuid",MovisensCharacteristics.ECG.getUuid().toString());
-*/
-           // movisensService.getCharacteristics().add(BluetoothGattCharacteristic.);
-
-            Log.d("Temp",MovisensCharacteristics.SENSOR_TEMPERATURE.toString());
-           // Log.d("ECG-",MovisensCharacteristics.ECG.createAttribute(BluetoothData.class.));
 
             BleUtils.writeCharacteristic(
                     MovisensCharacteristics.AGE_FLOAT.getUuid(),"AGE_FLOAT",
@@ -660,45 +574,55 @@ public class MovisensService extends Service {
                     sm.context.log(TAG,"Received data from characteristic: " + uuid.toString() + ", data: " + BleUtils.bytesToHex(data));
 
 
+                  if(MovisensCharacteristics.TAP_MARKER.equals(uuid)){
 
-                    Log.d("HR_uuid"," "+MovisensCharacteristics.HR_MEAN_BUFFERED.equals(UUID.fromString("1d9533d1-8c6e-4b6a-b242-d0713be204f0")) );
+                        Log.d("marker"," "+MovisensCharacteristics.TAP_MARKER.getUuid());
+
+                      TapMarker marker= new TapMarker(data);
+
+                      Log.d("marker_data ","" +marker.getTapMarker());
 
 
-
-                    if(MovisensCharacteristics.HR_MEAN_BUFFERED.equals(UUID.fromString("1d9533d1-8c6e-4b6a-b242-d0713be204f0"))){
-
-                        HeartRateMeasurement hrdata= new HeartRateMeasurement(data);
-
-                        Log.d("HR = ", hrdata.getHr() + hrdata.getHrUnit());
 
                     }
 
 
+                     /*
+
+   if(uuid==UUID.fromString("78663ddf-83c3-4665-9d04-003c990acf78")){
+
+                        Log.d("skintemp","skin temp buffer data  from "+uuid);
+
+                  }
 
 
+*/
+                   /* if(MovisensCharacteristics.SKIN_TEMPERATURE.equals(uuid)){
 
-                    Log.d("temp_uuid", ""+MovisensCharacteristics.SKIN_TEMPERATURE.equals(UUID.fromString("f89edec6-a336-5262-448d-400ca97a1c57")));
-
-
-                    if(MovisensCharacteristics.SKIN_TEMPERATURE.equals(UUID.fromString("f89edec6-a336-5262-448d-400ca97a1c57"))){
+                      //  Log.d("temp_uuid", ""+MovisensCharacteristics.SKIN_TEMPERATURE.equals(MovisensCharacteristics.SKIN_TEMPERATURE.getUuid()));
 
                         SkinTemperature skinTemperature = new SkinTemperature(data);
 
                         Log.d("skintemp ", skinTemperature.getTemperature()+" " +skinTemperature.getTemperatureUnit());
                     }
+*/
 
 
 
-                    Log.d("mark", ""+MovisensCharacteristics.TAP_MARKER.equals(UUID.fromString("207b171c-d7a5-48ef-8e60-6ccb5f0993f4")));
 
 
-                    if(MovisensCharacteristics.TAP_MARKER.equals(UUID.fromString("207b171c-d7a5-48ef-8e60-6ccb5f0993f4"))){
+
+
+
+               /*     if(UUID.fromString("207b171c-d7a5-48ef-8e60-6ccb5f0993f4").equals(uuid)){
+
+                        Log.d("mark_", ""+MovisensCharacteristics.TAP_MARKER.equals(uuid));
 
                         TapMarker tapMarker= new TapMarker(data);
 
-                        Log.d("mark", ""+ tapMarker.getTapMarker().toString()+" "+ tapMarker.getTapMarkerUnit() );
+                        Log.d("mark_", ""+ tapMarker.getTapMarker().toString()+" "+ tapMarker.getTapMarkerUnit() );
                     }
-
+*/
 
 
 
