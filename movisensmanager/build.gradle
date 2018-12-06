@@ -40,7 +40,7 @@ android {
 }
 
 dependencies {
-    compile project(':movisenslibrary')
+    implementation project(':movisenslibrary')
 }
 
 buildscript {
